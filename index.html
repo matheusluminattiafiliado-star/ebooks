@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo de eBooks | Renda Extra</title>
-    <!-- Mantemos apenas os ícones e a fonte para o design profissional -->
+    <title>Catálogo de eBooks | Renda Master</title>
+    <!-- Ícones e Fonte -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
-        /* Variáveis de Cores */
         :root {
             --primary: #4f46e5;
             --primary-dark: #4338ca;
@@ -19,11 +18,9 @@
             --slate-200: #e2e8f0;
             --slate-400: #94a3b8;
             --slate-500: #64748b;
-            --slate-600: #475569;
-            --slate-800: #1e293b;
             --slate-900: #0f172a;
             --white: #ffffff;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -36,17 +33,18 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--slate-50);
             color: var(--slate-900);
-            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* Header */
         header {
             background: var(--white);
             border-bottom: 1px solid var(--slate-200);
+            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 50;
-            padding: 1rem 0;
+            z-index: 40;
         }
 
         .container {
@@ -57,16 +55,8 @@
 
         .header-content {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            justify-content: space-between;
             align-items: center;
-        }
-
-        @media (min-width: 768px) {
-            .header-content {
-                flex-direction: row;
-                justify-content: space-between;
-            }
         }
 
         .logo {
@@ -87,214 +77,397 @@
             display: flex;
         }
 
-        /* Layout Principal */
         main {
-            padding: 2rem 0;
+            flex: 1;
+            padding: 3rem 1.5rem;
         }
 
-        .main-layout {
-            display: flex;
-            flex-direction: column;
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            justify-content: center;
-            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        /* Grid de Conteúdo */
-        .content-section {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .section-header h2 {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--slate-900);
-        }
-
-        /* Card do Livro */
         .book-card {
             background: var(--white);
             border-radius: 2rem;
             border: 1px solid var(--slate-200);
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow);
         }
 
         .book-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px -12px rgba(79, 70, 229, 0.15);
-            border-color: var(--primary);
+            transform: translateY(-5px);
         }
 
-        .book-image-wrapper {
+        .image-container {
             position: relative;
+            background: var(--primary-light);
             aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
-            background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
         }
 
         .book-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
-            padding: 1.5rem;
-            transition: transform 0.5s;
+            object-fit: cover;
         }
 
-        .tag {
+        .badge {
             position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
+            top: 1rem;
+            right: 1rem;
             background: #ef4444;
-            color: var(--white);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
             font-size: 0.75rem;
             font-weight: 800;
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            z-index: 10;
         }
 
-        .book-info {
+        .content {
             padding: 2rem;
             text-align: center;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .book-title {
-            font-weight: 800;
+        .title {
             font-size: 1.25rem;
-            margin-bottom: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
             line-height: 1.2;
-            color: var(--slate-900);
         }
 
-        .price-container {
-            margin-bottom: 2rem;
+        .pricing {
+            margin-bottom: 1.5rem;
+            margin-top: auto;
         }
 
         .old-price {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--slate-400);
             text-decoration: line-through;
-            margin-bottom: 0.25rem;
+            color: var(--slate-400);
+            font-size: 0.9rem;
+            display: block;
         }
 
         .new-price {
-            font-size: 2.5rem;
-            font-weight: 900;
             color: var(--primary);
-            letter-spacing: -0.02em;
+            font-size: 2rem;
+            font-weight: 900;
         }
 
-        .buy-now-btn {
-            width: 100%;
-            padding: 1.25rem;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
+        .buy-button {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.75rem;
-            transition: all 0.3s;
-            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1.25rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        .buy-now-btn:hover {
+        .buy-button:hover {
             background: var(--primary-dark);
-            transform: scale(1.02);
-            box-shadow: 0 15px 25px -5px rgba(79, 70, 229, 0.5);
         }
+
+        /* Admin Styles */
+        .admin-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1.5rem;
+        }
+
+        .admin-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--slate-500);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 0.75rem;
+            font-family: inherit;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-save { background: var(--primary); color: white; flex: 1; padding: 1rem; border: none; border-radius: 0.75rem; font-weight: 700; cursor: pointer; }
+        .btn-cancel { background: var(--slate-100); color: var(--slate-500); flex: 1; padding: 1rem; border: none; border-radius: 0.75rem; font-weight: 700; cursor: pointer; }
+
+        .admin-btn-trigger {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--slate-200);
+            color: var(--slate-400);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+            border: none;
+        }
+
+        .admin-btn-trigger:hover { opacity: 1; background: var(--slate-900); color: white; }
+
+        .delete-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            z-index: 20;
+        }
+
+        body.admin-mode .delete-btn { display: flex; align-items: center; justify-content: center; }
 
         footer {
-            padding: 3rem 0;
             text-align: center;
+            padding: 2rem;
             color: var(--slate-400);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="#" class="logo">
-                    <div class="logo-icon">
-                        <i data-lucide="zap"></i>
-                    </div>
-                    <span>Renda Master</span>
-                </a>
-            </div>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i data-lucide="zap"></i></div>
+                <span>Renda Master</span>
+            </a>
+            <div id="adminBadge" style="display:none; background: #fef3c7; color: #92400e; padding: 4px 12px; border-radius: 100px; font-size: 10px; font-weight: 800; text-transform: uppercase;">Modo Admin Ativo</div>
         </div>
     </header>
 
-    <main class="container">
-        <div class="main-layout">
-            <section class="content-section">
-                <div class="section-header">
-                    <h2>E-book´s</h2>
-                </div>
-
-                <div class="book-card">
-                    <div class="book-image-wrapper">
-                        <!-- Mude o src para o nome do seu arquivo local -->
-                        <img id="bookImage" src="capa-ebook.png" alt="Capa Renda Extra" class="book-image">
-                        <span class="tag">70% OFF</span>
-                    </div>
-                    <div class="book-info">
-                        <h3 class="book-title">Renda Extra: 50 Formas de Ganhar Dinheiro Online</h3>
-                        
-                        <div class="price-container">
-                            <span class="old-price">De R$ 57,00</span>
-                            <span class="new-price">R$ 14,99</span>
-                        </div>
-
-                        <button onclick="addToCart()" class="buy-now-btn">
-                            Comprar!
-                            <i data-lucide="arrow-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </section>
+    <main>
+        <div id="catalog" class="catalog-grid">
+            <!-- Os livros serão inseridos aqui via JS -->
         </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>Pagamento Seguro & Acesso Instantâneo</p>
+    <!-- Modal Admin -->
+    <div id="adminModal" class="admin-modal">
+        <div class="admin-content">
+            <h2 style="margin-bottom: 1.5rem; font-weight: 800;">Adicionar Novo Produto</h2>
+            <div class="form-group">
+                <label>Título do eBook</label>
+                <input type="text" id="prodTitle" placeholder="Ex: Renda Extra: 50 Formas...">
+            </div>
+            <div class="form-group">
+                <label>Preço (R$)</label>
+                <input type="number" step="0.01" id="prodPrice" placeholder="29.90">
+            </div>
+            <div class="form-group">
+                <label>Link da Kiwify</label>
+                <input type="url" id="prodLink" placeholder="https://pay.kiwify.com.br/...">
+            </div>
+            <div class="form-group">
+                <label>URL da Imagem (ou deixe em branco para padrão)</label>
+                <input type="text" id="prodImage" placeholder="capa-ebook.jpg">
+            </div>
+            <div class="form-group">
+                <label>Tag de Desconto (Opcional)</label>
+                <input type="text" id="prodTag" placeholder="Ex: 70% OFF">
+            </div>
+            <div class="admin-actions">
+                <button onclick="closeAdmin()" class="btn-cancel">Cancelar</button>
+                <button onclick="saveProduct()" class="btn-save">Salvar Produto</button>
+            </div>
         </div>
+    </div>
+
+    <button class="admin-btn-trigger" onclick="checkAdmin()" title="Acesso Restrito">
+        <i data-lucide="lock" style="width: 16px;"></i>
+    </button>
+
+    <footer>
+        <p>Pagamento Kiwify | Renda Master</p>
     </footer>
 
     <script>
         lucide.createIcons();
 
-        function addToCart() {
-            const btn = document.querySelector('.buy-now-btn');
-            const originalContent = btn.innerHTML;
-            btn.innerHTML = 'Processando...';
-            btn.style.opacity = '0.7';
-            setTimeout(() => {
-                alert('Redirecionando para o pagamento seguro...');
-                btn.innerHTML = originalContent;
-                btn.style.opacity = '1';
-                lucide.createIcons();
-            }, 1000);
+        // Dados Iniciais (Se o localStorage estiver vazio)
+        const initialBooks = [
+            {
+                id: Date.now(),
+                title: "Renda Extra: 50 Formas de Ganhar Dinheiro Online",
+                price: 29.90,
+                link: "https://pay.kiwify.com.br/0IbIOg3",
+                image: "capa-ebook.jpg",
+                tag: "70% OFF"
+            }
+        ];
+
+        let books = JSON.parse(localStorage.getItem('my_catalog')) || initialBooks;
+        let isAdmin = false;
+
+        function renderCatalog() {
+            const container = document.getElementById('catalog');
+            container.innerHTML = '';
+
+            books.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.innerHTML = `
+                    <div class="image-container">
+                        ${isAdmin ? `<button onclick="deleteProduct(${book.id})" class="delete-btn" title="Excluir"><i data-lucide="trash-2" style="width: 14px;"></i></button>` : ''}
+                        ${book.tag ? `<span class="badge">${book.tag}</span>` : ''}
+                        <img src="${book.image}" alt="${book.title}" class="book-image" onerror="this.src='https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80'">
+                    </div>
+                    <div class="content">
+                        <h2 class="title">${book.title}</h2>
+                        <div class="pricing">
+                            <span class="old-price">De R$ ${(book.price * 3.2).toFixed(2).replace('.', ',')}</span>
+                            <span class="new-price">R$ ${book.price.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <button onclick="handlePurchase('${book.link}')" class="buy-button">
+                            Quero Acesso Imediato
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
         }
+
+        function checkAdmin() {
+            if (isAdmin) {
+                document.getElementById('adminModal').style.display = 'flex';
+                return;
+            }
+            
+            const pass = prompt("Digite a senha de administrador para gerenciar produtos:");
+            if (pass === "Marimath@2410") { // Senha padrão
+                isAdmin = true;
+                document.body.classList.add('admin-mode');
+                document.getElementById('adminBadge').style.display = 'block';
+                document.getElementById('adminModal').style.display = 'flex';
+                renderCatalog();
+            } else if (pass !== null) {
+                alert("Senha incorreta!");
+            }
+        }
+
+        function closeAdmin() {
+            document.getElementById('adminModal').style.display = 'none';
+        }
+
+        function saveProduct() {
+            const title = document.getElementById('prodTitle').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
+            const link = document.getElementById('prodLink').value;
+            const image = document.getElementById('prodImage').value || 'capa-ebook.jpg';
+            const tag = document.getElementById('prodTag').value;
+
+            if (!title || !price || !link) {
+                alert("Preencha o título, preço e o link da Kiwify!");
+                return;
+            }
+
+            const newProduct = {
+                id: Date.now(),
+                title,
+                price,
+                link,
+                image,
+                tag
+            };
+
+            books.push(newProduct);
+            localStorage.setItem('my_catalog', JSON.stringify(books));
+            
+            // Limpar form
+            document.getElementById('prodTitle').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodLink').value = '';
+            document.getElementById('prodTag').value = '';
+            
+            closeAdmin();
+            renderCatalog();
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Tem certeza que deseja excluir este produto do catálogo?")) {
+                books = books.filter(b => b.id !== id);
+                localStorage.setItem('my_catalog', JSON.stringify(books));
+                renderCatalog();
+            }
+        }
+
+        function handlePurchase(url) {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = 'Processando...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                window.location.href = url; 
+            }, 800);
+        }
+
+        // Iniciar
+        renderCatalog();
     </script>
 </body>
 </html>
